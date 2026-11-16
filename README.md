@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.svg" width="120" alt="冰冰冰图标">
+</p>
+
 # 冰冰冰（bingbingbing）
 
 一个单文件的冰块点击小游戏：HTML、CSS、JS 全部写在同一个 `index.html` 里，无依赖、无构建、离线可玩。
@@ -29,6 +33,7 @@
 
 ```
 index.html
+assets/icon.svg
 ```
 
 ## 实现上的几个点
