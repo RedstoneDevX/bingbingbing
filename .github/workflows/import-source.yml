@@ -14,7 +14,7 @@ jobs:
       - name: 下载源文件（仅在 index.html 缺失时）
         run: |
           if [ -s index.html ]; then
-            echo "index.html 已存在，跳过"
+            echo "index.html 已存在，跳过下载"
             exit 0
           fi
           curl -fsSL "https://aka.doubaocdn.com/s/Lq7wv16Wsa" -o index.html
@@ -22,12 +22,16 @@ jobs:
           head -c 80 index.html
       - name: 提交
         run: |
-          if [ -s index.html ] && ! git diff --quiet -- index.html; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add index.html
-            git commit -m "auto-import: 导入冰冰冰小游戏源码"
-            git push
-          else
-            echo "无需提交"
+          if [ ! -s index.html ]; then
+            echo "index.html 缺失，跳过提交"
+            exit 0
           fi
+          git add index.html
+          if git diff --quiet --cached; then
+            echo "index.html 无变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "auto-import: 导入冰冰冰小游戏源码"
+          git push
